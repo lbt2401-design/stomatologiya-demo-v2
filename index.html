@@ -359,6 +359,107 @@
     .price__item p { display: block !important; }
     .price__head { margin-top: var(--v-6); }
   }
+
+  /* ---- запись: форма в окне, открывается любой кнопкой «Записаться» ([data-book]) ---- */
+  .book { width: min(34rem, calc(100vw - 2rem)); max-height: calc(100dvh - 2rem); padding: 0; border: 0; border-radius: var(--v-radius);
+    background: var(--v-surface); color: var(--v-ink); box-shadow: var(--v-e2), var(--v-edge); font-family: var(--v-font-text); overflow: auto; overscroll-behavior: contain; }
+  .book::backdrop { background: rgb(30 34 51 / .42); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  .book[open] { animation: book-in .26s var(--v-ease-out); }
+  @keyframes book-in { from { opacity: 0; transform: translateY(12px) scale(.98); } }
+  .book__in { position: relative; padding: var(--v-6) var(--v-6) var(--v-5); display: grid; gap: var(--v-5); }
+  .book h2 { margin: 0; padding-right: 44px; font-family: var(--v-font-display); font-weight: 500; font-size: var(--v-t-xl); line-height: 1.05; letter-spacing: var(--v-track-tight); text-wrap: balance; }
+  .book__sub { margin: calc(-1 * var(--v-3)) 0 0; color: var(--v-ink-soft); font-size: var(--v-t-sm); text-wrap: pretty; }
+  .book__x { position: absolute; top: var(--v-3); right: var(--v-3); width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--v-ink-soft); cursor: pointer; transition: color .16s var(--v-ease-out); }
+  @media (hover: hover) and (pointer: fine) { .book__x:hover { color: var(--v-ink); } }
+  .fld { display: grid; gap: var(--v-2); align-content: start; font-size: var(--v-t-sm); }
+  .fld > span, .day legend { font-weight: 600; color: var(--v-ink); }
+  .fld input, .fld select { font: inherit; font-size: 1rem; color: var(--v-ink); background: var(--v-canvas); border: 1px solid var(--v-hair-strong); border-radius: var(--v-radius);
+    min-height: 48px; padding: 0 var(--v-4); width: 100%; box-sizing: border-box; transition: border-color .16s var(--v-ease-out); }
+  .fld select { appearance: none; padding-right: 2.6em; cursor: pointer;
+    background: var(--v-canvas) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%235a5f74' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 1em center / .75em; }
+  .fld input:focus-visible, .fld select:focus-visible { outline: 2px solid var(--v-accent); outline-offset: 1px; border-color: var(--v-accent); }
+  .fld.is-bad input { border-color: #b3261e; }
+  .fld__err { color: #b3261e; font-size: var(--v-t-xs); min-height: 0; }
+  .fld__err:empty { display: none; }
+  .book__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--v-4); align-items: start; }
+  /* «Когда удобнее»: рабочий день клиники 9–21 одной шкалой, три отрезка по длине в часах */
+  .day { border: 0; margin: 0; padding: 0; display: grid; gap: var(--v-2); font-size: var(--v-t-sm); }
+  .day legend { padding: 0; margin-bottom: var(--v-2); }
+  .day__scale { display: grid; grid-template-columns: 3fr 5fr 4fr; border-radius: var(--v-radius); box-shadow: inset 0 0 0 1px var(--v-hair-strong); overflow: hidden; }
+  .day__scale label { position: relative; cursor: pointer; }
+  .day__scale label + label { box-shadow: -1px 0 0 var(--v-hair-strong); }
+  .day__scale input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .day__scale span { display: grid; gap: 2px; min-height: 48px; padding: var(--v-2) var(--v-3); align-content: center; transition: background-color .16s var(--v-ease-out), color .16s var(--v-ease-out); }
+  .day__scale b { font-weight: 600; }
+  .day__scale small { font-size: var(--v-t-xs); color: var(--v-ink-soft); font-variant-numeric: tabular-nums; }
+  .day__scale input:checked + span { background: var(--v-accent); color: var(--v-accent-ink); }
+  .day__scale input:checked + span small { color: inherit; opacity: .85; }
+  .day__scale input:focus-visible + span { outline: 2px solid var(--v-accent); outline-offset: -4px; }
+  @media (hover: hover) and (pointer: fine) { .day__scale input:not(:checked) + span:hover { background: var(--v-canvas); } }
+  .day__note { color: var(--v-ink-soft); font-size: var(--v-t-xs); }
+  .agree { display: grid; grid-template-columns: auto 1fr; gap: var(--v-3); align-items: start; font-size: var(--v-t-xs); color: var(--v-ink-soft); line-height: 1.5; cursor: pointer; }
+  .agree input { width: 20px; height: 20px; margin: 0; accent-color: var(--v-accent); cursor: pointer; }
+  .agree a { color: var(--v-ink); }
+  .agree.is-bad { color: #b3261e; }
+  .book__go { display: flex; flex-wrap: wrap; align-items: center; gap: var(--v-3) var(--v-5); }
+  /* .v-page button из движка сбрасывает фон и цвет – кнопкам-<button> возвращаем их явно */
+  .v-page button.v-btn { background: var(--v-accent); color: var(--v-accent-ink); }
+  .v-page button.v-btn--ghost { background: transparent; color: var(--v-ink); }
+  .book button.v-btn[disabled] { opacity: .6; cursor: progress; }
+  .book__go a { color: var(--v-ink); font-size: var(--v-t-sm); }
+  .book__msg { font-size: var(--v-t-sm); }
+  .book__msg:empty { display: none; }
+  .book__msg.is-bad { color: #b3261e; }
+  .hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .book__done { display: grid; gap: var(--v-4); }
+  .book__done[hidden] { display: none; }
+  .book__done p { margin: 0; color: var(--v-ink-soft); text-wrap: pretty; }
+  .book__done b { color: var(--v-ink); font-weight: 600; }
+  @media (max-width: 560px) {
+    .book { width: 100vw; max-width: 100vw; max-height: 92dvh; margin: auto 0 0; border-radius: var(--v-radius) var(--v-radius) 0 0; }
+    .book__in { padding: var(--v-5) var(--v-gutter) calc(var(--v-5) + env(safe-area-inset-bottom)); gap: var(--v-4); }
+    .book__row { grid-template-columns: 1fr; }
+  }
+
+  /* ---- помощник: вопросы клинике готовыми ответами, кнопка в правом нижнем углу ---- */
+  .ask { position: fixed; right: var(--v-gutter); bottom: calc(var(--v-4) + env(safe-area-inset-bottom)); z-index: 40; display: grid; justify-items: end; gap: var(--v-3); font-family: var(--v-font-text); }
+  .v-page .ask__btn { display: inline-flex; align-items: center; gap: .55em; min-height: 48px; padding: 0 1.2em 0 .5em; border: 0; border-radius: 999px; cursor: pointer;
+    background: var(--v-surface); color: var(--v-ink); font: inherit; font-weight: 600; font-size: var(--v-t-sm); box-shadow: var(--v-e2), var(--v-edge);
+    transition: transform .16s var(--v-ease-out), box-shadow .16s var(--v-ease-out); }
+  .ask__btn i { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--v-accent); color: var(--v-accent-ink); flex: none; }
+  .ask__btn:active { transform: scale(.97); }
+  .ask__btn:focus-visible, .ask__panel button:focus-visible, .ask__panel input:focus-visible { outline: 2px solid var(--v-accent); outline-offset: 2px; }
+  .ask__panel { width: min(23rem, calc(100vw - 2 * var(--v-gutter))); height: min(34rem, calc(100dvh - 8rem)); display: grid; grid-template-rows: auto 1fr auto; overflow: hidden;
+    background: var(--v-surface); border-radius: var(--v-radius); box-shadow: var(--v-e2), var(--v-edge); transform-origin: 100% 100%; }
+  .ask__panel[hidden] { display: none; }
+  .ask__panel.is-in { animation: book-in .22s var(--v-ease-out); }
+  .ask__head { position: relative; padding: var(--v-4) var(--v-5); border-bottom: 1px solid var(--v-hair); }
+  .ask__head b { display: block; font-family: var(--v-font-display); font-weight: 500; font-size: var(--v-t-lg); letter-spacing: -0.01em; padding-right: 44px; }
+  .ask__head small { display: block; margin-top: 2px; color: var(--v-ink-soft); font-size: var(--v-t-xs); line-height: 1.45; padding-right: 36px; }
+  .ask__head .book__x { top: var(--v-2); right: var(--v-2); }
+  .ask__log { overflow-y: auto; overscroll-behavior: contain; padding: var(--v-4) var(--v-5); display: flex; flex-direction: column; gap: var(--v-3); font-size: var(--v-t-sm); line-height: 1.5; }
+  .msg { max-width: 88%; padding: var(--v-3) var(--v-4); border-radius: var(--v-radius); text-wrap: pretty; }
+  .msg p { margin: 0; }
+  .msg p + p { margin-top: var(--v-2); }
+  .msg--bot { align-self: flex-start; background: var(--v-canvas); border-bottom-left-radius: 4px; }
+  .msg--me { align-self: flex-end; background: var(--v-accent); color: var(--v-accent-ink); border-bottom-right-radius: 4px; }
+  .msg__act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--v-2) var(--v-4); margin-top: var(--v-3); }
+  .msg__act .v-btn { padding: .65em 1.2em; border: 0; font-family: inherit; cursor: pointer; }
+  .msg__act a:not(.v-btn) { color: var(--v-ink); white-space: nowrap; }
+  .chips { display: flex; flex-wrap: wrap; gap: var(--v-2); }
+  .chips button { font: inherit; font-size: var(--v-t-xs); font-weight: 600; color: var(--v-ink); background: transparent; border: 0; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--v-hair-strong);
+    min-height: 36px; padding: 0 .95em; cursor: pointer; transition: box-shadow .16s var(--v-ease-out); }
+  @media (hover: hover) and (pointer: fine) { .chips button:hover { box-shadow: inset 0 0 0 1px var(--v-ink); } }
+  .ask__form { display: grid; grid-template-columns: 1fr auto; gap: var(--v-2); padding: var(--v-3) var(--v-4); border-top: 1px solid var(--v-hair); }
+  .ask__form input { font: inherit; font-size: 1rem; color: var(--v-ink); background: var(--v-canvas); border: 1px solid var(--v-hair-strong); border-radius: 999px; min-height: 44px; padding: 0 var(--v-4); min-width: 0; }
+  .v-page .ask__form button { width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--v-accent); color: var(--v-accent-ink); display: grid; place-items: center; cursor: pointer; }
+  @media (max-width: 560px) {
+    .ask { right: var(--v-3); bottom: calc(var(--v-3) + env(safe-area-inset-bottom)); }
+    .v-page .ask__btn { padding: 0 .5em; }
+    .ask__btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .ask__panel { width: calc(100vw - 2 * var(--v-3)); height: calc(100dvh - 6.5rem); }
+  }
+  @media (prefers-reduced-motion: reduce) { .book[open], .ask__panel.is-in { animation-duration: .01s; } }
 </style>
 </head>
 <body>
@@ -376,7 +477,7 @@
     </nav>
     <div class="bar__right">
       <a class="bar__tel" href="tel:+74963438624">8 (496) 343-86-24</a>
-      <a class="v-btn" href="{{ссылка-записи}}" target="_blank" rel="noopener">Записаться</a>
+      <a class="v-btn" href="#zapis" data-book>Записаться</a>
     </div>
   </header>
   <main>
@@ -414,7 +515,7 @@
             <li>Приём по записи, без очереди</li>
           </ul>
           <div class="hero__cta">
-            <a class="v-btn" href="{{ссылка-записи}}" target="_blank" rel="noopener">Записаться</a>
+            <a class="v-btn" href="#zapis" data-book>Записаться</a>
             <a class="hero__tel" href="tel:+74963438624">или позвоните <b>8 (496) 343-86-24</b></a>
           </div>
         </div>
@@ -452,7 +553,7 @@
         </ol>
         <div class="usl__foot" data-v-in data-v-in-self>
           <p>Не нашли свою ситуацию или не знаете, что именно нужно? Начните с осмотра: врач посмотрит, объяснит и напишет план с ценой по пунктам.</p>
-          <a class="v-btn v-btn--ghost" href="{{ссылка-записи}}" target="_blank" rel="noopener">Записаться</a>
+          <a class="v-btn v-btn--ghost" href="#zapis" data-book>Записаться</a>
         </div>
       </div>
     </section>
@@ -499,7 +600,7 @@
             <li><h3><small>Шаг 5</small>Решение</h3><p>Можно начать в этот же день, можно забрать план домой и подумать. Давить не будем.</p></li>
           </ol>
           <div class="cta">
-            <a class="v-btn" href="{{ссылка-записи}}" target="_blank" rel="noopener">Записаться</a>
+            <a class="v-btn" href="#zapis" data-book>Записаться</a>
             <span>Первый визит – осмотр, снимок и план за один приём. Напишите, что беспокоит, и подберём время.</span>
           </div>
         </div>
@@ -658,7 +759,7 @@
               <h2 class="v-display v-display--xl">Запишитесь на своё время</h2>
               <p>Напишите или позвоните: подберём время, назовём цену первого визита и ответим на остальные вопросы до кресла. Кабинет ждёт.</p>
               <div class="close__btns">
-                <a class="v-btn" href="{{ссылка-записи}}" target="_blank" rel="noopener" data-v-magnet="0.22" data-v-rise="0">Записаться</a>
+                <a class="v-btn" href="#zapis" data-book data-v-magnet="0.22" data-v-rise="0">Записаться</a>
                 <a class="v-btn v-btn--ghost" href="tel:+74963438624">Позвонить</a>
               </div>
             </div>
@@ -674,6 +775,7 @@
             <span>СТОМИК · стоматология · Наро-Фоминск</span>
             <span class="foot__more" data-slot-optional>{{юрлицо}} · ИНН {{ИНН}}</span>
             <span>Лицензия {{лицензия}}</span>
+            <a href="assets/privacy.html" target="_blank" rel="noopener">Политика конфиденциальности</a>
             <span class="foot__warn">Имеются противопоказания. Необходима консультация специалиста.</span>
           </footer>
         </div>
@@ -681,6 +783,82 @@
     </section>
 
   </main>
+
+  <!-- Запись: форма в окне. Заявка уходит в скрипт Google (адрес – STOMIK.endpoint ниже): строка в таблицу + письмо -->
+  <dialog class="book" id="book" aria-labelledby="book-title">
+    <div class="book__in">
+      <button class="book__x" type="button" data-close aria-label="Закрыть"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 3l12 12M15 3L3 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <form id="book-form" novalidate>
+        <div class="book__in" style="padding:0">
+          <h2 id="book-title">Запись на приём</h2>
+          <p class="book__sub">Оставьте телефон – перезвоним с 9:00 до 21:00, подберём время и ответим на вопросы до визита.</p>
+          <div class="book__row">
+            <label class="fld" id="f-name"><span>Как к вам обращаться</span>
+              <input name="client" autocomplete="given-name" maxlength="60" required class="ym-disable-keys" aria-describedby="e-name">
+              <small class="fld__err" id="e-name" aria-live="polite"></small></label>
+            <label class="fld" id="f-phone"><span>Телефон</span>
+              <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" maxlength="18" required class="ym-disable-keys" aria-describedby="e-phone">
+              <small class="fld__err" id="e-phone" aria-live="polite"></small></label>
+          </div>
+          <label class="fld"><span>С чем обратиться</span>
+            <select name="service">
+              <option>Осмотр и план лечения</option>
+              <option>Имплантация</option>
+              <option>Элайнеры и брекеты</option>
+              <option>Лечение кариеса и каналов</option>
+              <option>Профессиональная гигиена</option>
+              <option>Отбеливание</option>
+              <option>Удаление зубов</option>
+              <option>Коронки, виниры, мосты</option>
+              <option>Детская стоматология</option>
+            </select></label>
+          <fieldset class="day">
+            <legend>Когда удобнее прийти</legend>
+            <div class="day__scale">
+              <label><input type="radio" name="time" value="Утро, 9–12"><span><b>Утро</b><small>9–12</small></span></label>
+              <label><input type="radio" name="time" value="День, 12–17"><span><b>День</b><small>12–17</small></span></label>
+              <label><input type="radio" name="time" value="Вечер, 17–21"><span><b>Вечер</b><small>17–21</small></span></label>
+            </div>
+            <span class="day__note">Можно не выбирать – договоримся по телефону.</span>
+          </fieldset>
+          <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <label class="agree" id="f-agree"><input type="checkbox" name="agree" required>
+            <span>Даю <a href="assets/soglasie.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> для записи на приём. Как мы храним данные – в <a href="assets/privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a>.</span></label>
+          <div class="book__go">
+            <button class="v-btn" type="submit">Записаться</button>
+            <a href="tel:+74963438624">или позвоните 8 (496) 343-86-24</a>
+          </div>
+          <p class="book__msg" id="book-msg" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+      <div class="book__done" id="book-done" hidden>
+        <h2 tabindex="-1">Заявка у нас</h2>
+        <p>Перезвоним <b>с 9:00 до 21:00</b> на номер <b id="done-phone"></b>, подберём время и расскажем, что взять с собой. Если удобнее сразу – звоните <a href="tel:+74963438624">8 (496) 343-86-24</a>.</p>
+        <p id="done-demo" hidden>Сайт работает в демо-режиме: заявка пока никуда не отправлена.</p>
+        <div><button class="v-btn v-btn--ghost" type="button" data-close>Вернуться на сайт</button></div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Помощник: отвечает только готовыми ответами из базы ниже (ASK_KB), диагнозов не ставит, ведёт к записи -->
+  <div class="ask" id="ask">
+    <div class="ask__panel" id="ask-panel" role="dialog" aria-labelledby="ask-title" hidden>
+      <div class="ask__head">
+        <b id="ask-title">Вопрос клинике</b>
+        <small>Помощник отвечает готовыми ответами клиники. Диагноз ставит только врач на осмотре.</small>
+        <button class="book__x" type="button" id="ask-x" aria-label="Свернуть помощника"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 3l12 12M15 3L3 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      </div>
+      <div class="ask__log" id="ask-log" aria-live="polite"></div>
+      <form class="ask__form" id="ask-form" autocomplete="off">
+        <input name="q" maxlength="300" placeholder="Например: сколько стоит имплант?" aria-label="Ваш вопрос">
+        <button type="submit" aria-label="Спросить"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h11M10 4.5L14.5 9 10 13.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </form>
+    </div>
+    <button class="ask__btn" type="button" id="ask-btn" aria-expanded="false" aria-controls="ask-panel">
+      <i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 20 20"><path d="M4 4.5h12a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5H9l-3.5 3v-3H4A1.5 1.5 0 0 1 2.5 13V6A1.5 1.5 0 0 1 4 4.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></i>
+      <span>Вопрос клинике</span>
+    </button>
+  </div>
 </div>
 
 <script src="vibe.js"></script>
@@ -776,6 +954,338 @@
     cards.forEach(function (c) {
       c.addEventListener('click', function () { pick(c); show(); });
       c.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(c); } });
+    });
+  })();
+</script>
+
+<script>
+  // ---- Настройки сайта: всё, что меняется при передаче заказчику, – здесь ----
+  var STOMIK = {
+    endpoint: '',               // адрес веб-приложения Google Apps Script (integrations/ИНСТРУКЦИЯ.md); пусто = демо-режим
+    metrikaId: 0,               // номер счётчика Яндекс Метрики; 0 = Метрика не подключена
+    phone: '+74963438624',
+    phoneText: '8 (496) 343-86-24',
+    hours: 'с 9:00 до 21:00',
+    address: ''                 // адрес клиники, пока неизвестен: помощник предложит уточнить по телефону
+  };
+
+  // Логгер: JSON-строка в консоль с уровнем и контекстом. Уровень debug – по ?debug=1 в адресе.
+  var Log = (function () {
+    var LEVELS = { debug: 10, info: 20, warn: 30, error: 40 };
+    var min = /[?&]debug=1\b/.test(location.search) ? 'debug' : 'info';
+    function write(level, msg, ctx) {
+      if (LEVELS[level] < LEVELS[min]) return;
+      var e = { ts: new Date().toISOString(), level: level, app: 'stomik-site', msg: msg };
+      for (var k in ctx) if (Object.prototype.hasOwnProperty.call(ctx, k)) e[k] = ctx[k];
+      (console[level] || console.log)(JSON.stringify(e));
+    }
+    return {
+      debug: function (m, c) { write('debug', m, c || {}); },
+      info: function (m, c) { write('info', m, c || {}); },
+      warn: function (m, c) { write('warn', m, c || {}); },
+      error: function (m, err, c) {
+        c = c || {};
+        if (err) c.error = { name: err.name, message: err.message, stack: err.stack };
+        write('error', m, c);
+      }
+    };
+  })();
+
+  // Яндекс Метрика: грузится, только когда задан номер счётчика. Цели – reachGoal с латинскими именами.
+  (function () {
+    if (!STOMIK.metrikaId) { Log.debug('metrika off', { fn: 'metrika' }); return; }
+    (function (m, e, t, r, i, k, a) {
+      m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
+      m[i].l = 1 * new Date();
+      k = e.createElement(t); a = e.getElementsByTagName(t)[0]; k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
+    })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+    ym(STOMIK.metrikaId, 'init', { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true });
+  })();
+  function goal(name, params) {
+    Log.debug('goal', { fn: 'goal', goal: name, params: params || null });
+    try { if (STOMIK.metrikaId && window.ym) ym(STOMIK.metrikaId, 'reachGoal', name, params || {}); } catch (e) { Log.error('goal failed', e, { fn: 'goal', goal: name }); }
+  }
+  // Звонок с сайта – отдельная цель для Директа.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="tel:"]');
+    if (a) goal('phone_click', { from: (a.closest('[id]') || {}).id || '' });
+  });
+
+  // Метки рекламы (utm_*, yclid) запоминаем при входе, чтобы в заявке было видно, с какого объявления она пришла.
+  var Utm = (function () {
+    var KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'yclid'], got = {}, any = false;
+    try {
+      var q = new URLSearchParams(location.search);
+      KEYS.forEach(function (k) { var v = q.get(k); if (v) { got[k] = v.slice(0, 200); any = true; } });
+      if (any) { got.landing = location.href.slice(0, 500); localStorage.setItem('stomik_utm', JSON.stringify(got)); return got; }
+      return JSON.parse(localStorage.getItem('stomik_utm') || '{}');
+    } catch (e) { return got; }
+  })();
+
+  // ---- Запись: окно с формой ----
+  var Book = (function () {
+    var dlg = document.getElementById('book'), form = document.getElementById('book-form'), done = document.getElementById('book-done');
+    var msg = document.getElementById('book-msg'), btn = form.querySelector('button[type="submit"]');
+    var from = '';
+
+    function digits(v) {
+      var d = String(v).replace(/\D/g, '');
+      if (!d) return '';
+      if (d[0] === '8') d = '7' + d.slice(1);
+      else if (d[0] !== '7') d = '7' + d;
+      return d.slice(0, 11);
+    }
+    function fmt(d) {
+      var s = '+7';
+      if (d.length > 1) s += ' (' + d.slice(1, 4);
+      if (d.length >= 4) s += ')';
+      if (d.length > 4) s += ' ' + d.slice(4, 7);
+      if (d.length > 7) s += '-' + d.slice(7, 9);
+      if (d.length > 9) s += '-' + d.slice(9, 11);
+      return s;
+    }
+    form.phone.addEventListener('input', function (e) {
+      if (e.inputType && e.inputType.indexOf('delete') === 0) return; // стирание не форматируем, иначе скобка «залипает»
+      var d = digits(form.phone.value);
+      form.phone.value = d ? fmt(d) : '';
+    });
+
+    function bad(id, text) {
+      var f = document.getElementById(id); f.classList.toggle('is-bad', !!text);
+      var err = f.querySelector('.fld__err'); if (err) err.textContent = text || '';
+    }
+    function check() {
+      var ok = true, name = form.client.value.trim(), d = digits(form.phone.value);
+      if (name.length < 2) { bad('f-name', 'Напишите имя, чтобы мы знали, как обратиться'); ok = false; } else bad('f-name');
+      if (d.length !== 11) { bad('f-phone', 'Нужен номер из 11 цифр, например +7 (916) 123-45-67'); ok = false; } else bad('f-phone');
+      if (!form.agree.checked) { bad('f-agree', 'x'); ok = false; } else bad('f-agree');
+      if (!ok) { var first = form.querySelector('.is-bad input'); if (first) first.focus(); }
+      return ok;
+    }
+
+    function open(service, src) {
+      from = src || '';
+      if (!done.hidden) { done.hidden = true; form.hidden = false; form.reset(); }
+      if (service) for (var i = 0; i < form.service.options.length; i++) if (form.service.options[i].text === service) form.service.selectedIndex = i;
+      msg.textContent = ''; msg.classList.remove('is-bad');
+      dlg.showModal();
+      form.client.focus();
+      goal('booking_open', { from: from });
+      Log.info('booking open', { fn: 'Book.open', from: from, service: service || '' });
+    }
+    function close() { dlg.close(); }
+    dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target.closest('[data-close]')) close(); });
+
+    // Любая кнопка «Записаться» с data-book открывает окно; без поддержки <dialog> ссылка просто ведёт к финалу.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('[data-book]');
+      if (!a || typeof dlg.showModal !== 'function') return;
+      e.preventDefault();
+      open(a.getAttribute('data-book'), (a.closest('section, header') || {}).id || 'bar');
+    });
+
+    function getClientId(cb) {
+      if (!STOMIK.metrikaId || !window.ym) return cb('');
+      var t = setTimeout(function () { cb(''); cb = function () {}; }, 800);
+      try { ym(STOMIK.metrikaId, 'getClientID', function (id) { clearTimeout(t); cb(String(id || '')); cb = function () {}; }); } catch (e) { clearTimeout(t); cb(''); }
+    }
+
+    function finish(rid, phone, demo) {
+      document.getElementById('done-phone').textContent = phone;
+      document.getElementById('done-demo').hidden = !demo;
+      form.hidden = true; done.hidden = false;
+      done.querySelector('h2').focus();
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!check()) return;
+      var rid = 'z' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+      var phone = fmt(digits(form.phone.value));
+      var time = form.querySelector('input[name="time"]:checked');
+      btn.disabled = true; msg.textContent = 'Отправляем…'; msg.classList.remove('is-bad');
+
+      getClientId(function (clientId) {
+        var data = {
+          id: rid, name: form.client.value.trim().slice(0, 60), phone: phone,
+          service: form.service.value, time: time ? time.value : 'Не выбрано',
+          from: from, utm: Utm, clientId: clientId,
+          page: location.href.split('#')[0].slice(0, 300), referrer: document.referrer.slice(0, 300),
+          website: form.website.value, agree: true
+        };
+        Log.info('booking submit', { fn: 'Book.submit', requestId: rid, service: data.service, from: from, demo: !STOMIK.endpoint });
+
+        if (!STOMIK.endpoint) { // демо: окно благодарности без отправки
+          btn.disabled = false; msg.textContent = '';
+          finish(rid, phone, true); goal('booking_sent', { demo: 1 });
+          return;
+        }
+        var ctrl = 'AbortController' in window ? new AbortController() : null;
+        var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);
+        // text/plain – «простой» запрос без предварительной проверки CORS, его принимает Apps Script
+        fetch(STOMIK.endpoint, { method: 'POST', body: JSON.stringify(data), signal: ctrl ? ctrl.signal : undefined })
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            clearTimeout(timer); btn.disabled = false;
+            if (!res || !res.ok) throw new Error((res && res.error) || 'server said not ok');
+            msg.textContent = '';
+            finish(rid, phone, false);
+            goal('booking_sent', { service: data.service });
+            Log.info('booking sent', { fn: 'Book.submit', requestId: rid });
+          })
+          .catch(function (err) {
+            clearTimeout(timer); btn.disabled = false;
+            msg.classList.add('is-bad');
+            msg.textContent = 'Заявка не ушла: нет связи с сервером. Попробуйте ещё раз или позвоните ' + STOMIK.phoneText + '.';
+            goal('booking_error');
+            Log.error('booking failed', err, { fn: 'Book.submit', requestId: rid, endpoint: STOMIK.endpoint.slice(0, 60) });
+          });
+      });
+    });
+
+    return { open: open };
+  })();
+
+  // ---- Помощник: готовые ответы по ключевым словам. Только факты с сайта; чего нет – ведём к звонку и записи ----
+  var ASK_KB = [
+    // weight < 1: общие слова про цену уступают конкретной услуге («сколько стоит имплант» → имплантация)
+    { id: 'price', weight: 0.5, q: 'Сколько стоит лечение?', keys: ['цен', 'стоит', 'стоим', 'сколько', 'прайс', 'дорог', 'руб', 'деньг'],
+      a: ['Цену называем после осмотра: врач пишет план, и в нём цена по каждому пункту. Итог в плане – та сумма, которую вы заплатите, а не «от».',
+          'Если в кресле нашли что-то ещё – останавливаемся, показываем и спрашиваем, делать ли. Цены на отдельные услуги подскажем по телефону.'],
+      service: 'Осмотр и план лечения' },
+    { id: 'pain', q: 'Будет больно?', keys: ['больн', 'болит', 'боюсь', 'страшн', 'анестез', 'обезбол', 'укол', 'наркоз'],
+      a: ['Анестезия – перед любым вмешательством. Перед каждым действием врач говорит, что сейчас будет: «холодно», «давление», «жужжит».',
+          'Если что-то не так – поднимаете руку, и мы останавливаемся. Честно: неприятно может быть, но вы всегда знаете, что происходит.'],
+      service: 'Осмотр и план лечения' },
+    { id: 'urgent', q: 'Сильно болит, что делать?', keys: ['срочн', 'остр', 'сильно', 'флюс', 'опух', 'отек', 'отёк', 'температур', 'ночью', 'не могу терпеть', 'щека'],
+      a: ['Если сильно болит – позвоните, подберём ближайшее время.',
+          'Если поднялась температура или отёк растёт, не ждите записи: обратитесь за неотложной помощью, телефон 103. Помощник не ставит диагноз – это может сделать только врач.'],
+      call: true },
+    { id: 'first', q: 'Как проходит первый визит?', keys: ['первый', 'первичн', 'визит', 'консультац', 'осмотр', 'впервые', 'снимок'],
+      a: ['Первый визит – смотрим и объясняем, сверлить не начинаем: осмотр, снимок при необходимости, письменный план и цена по каждому пункту.',
+          'Дальше решаете вы: можно начать в этот же день, можно забрать план домой и подумать. Давить не будем.'],
+      service: 'Осмотр и план лечения' },
+    { id: 'implant', q: 'Имплантация', keys: ['имплант', 'вживл', 'нет зуба', 'потерял зуб'],
+      a: ['Имплантация – от снимка до коронки на импланте. Этапы, сроки и цена каждого этапа записываем в план до начала.',
+          'Начинается с консультации и снимка: врач скажет, подходит ли имплантация именно вам.'],
+      service: 'Имплантация' },
+    { id: 'ortho', q: 'Элайнеры и брекеты', keys: ['элайн', 'капы', 'капп', 'брекет', 'ровн', 'прикус', 'кривы', 'ортодонт'],
+      a: ['Прозрачные капы (элайнеры) или брекеты подбирает ортодонт на консультации.',
+          'План по этапам, срок и цена всего лечения – до установки.'],
+      service: 'Элайнеры и брекеты' },
+    { id: 'kids', q: 'Лечите детей?', keys: ['ребен', 'ребён', 'дет', 'сын', 'доч', 'молочн', 'фиссур'],
+      a: ['Да. Первый визит – знакомство с кабинетом. Лечим молочные зубы, герметизируем фиссуры.'],
+      service: 'Детская стоматология' },
+    { id: 'hygiene', q: 'Профессиональная гигиена', keys: ['гигиен', 'чистк', 'налет', 'налёт', 'камен'],
+      a: ['Ультразвук, порошок, полировка и рекомендации по уходу. Один визит, около часа.'],
+      service: 'Профессиональная гигиена' },
+    { id: 'white', q: 'Отбеливание', keys: ['отбел', 'белы', 'цвет зуб', 'желт', 'жёлт'],
+      a: ['Отбеливаем только после осмотра и гигиены: сначала здоровые зубы, потом цвет. Оттенок согласуем до начала.'],
+      service: 'Отбеливание' },
+    { id: 'remove', q: 'Удаление зуба', keys: ['удал', 'вырв', 'мудр', 'восьмерк', 'восьмёрк'],
+      a: ['Удаляем простые и сложные зубы, включая зубы мудрости. Анестезия, рекомендации письменно, контрольный осмотр.',
+          'Цена сложного удаления – после снимка, и тоже до начала.'],
+      service: 'Удаление зубов' },
+    { id: 'crown', q: 'Коронки и виниры', keys: ['корон', 'винир', 'мост', 'протез', 'сломал', 'скол'],
+      a: ['Материал подбираем под зуб и бюджет. На время изготовления ставим временную коронку, срок изготовления пишем в план.'],
+      service: 'Коронки, виниры, мосты' },
+    { id: 'caries', q: 'Лечение кариеса', keys: ['кариес', 'пломб', 'дырк', 'канал', 'нерв', 'пульпит'],
+      a: ['С анестезией. Пломба – за один визит, лечение каналов – по письменному плану с ценой каждого этапа.'],
+      service: 'Лечение кариеса и каналов' },
+    { id: 'clean', q: 'Как у вас со стерильностью?', keys: ['стерил', 'автоклав', 'инструмент', 'чист', 'одноразов', 'зараз'],
+      a: ['После каждого пациента инструменты проходят автоклав. Каждый набор запечатан в пакет и вскрывается при вас у кресла.',
+          'Слюноотсос, салфетки, стаканы, перчатки и маска – одноразовые, на каждый приём.'] },
+    { id: 'where', q: 'Часы работы и адрес', keys: ['адрес', 'где', 'наход', 'добрат', 'часы', 'работаете', 'время работ', 'выходн', 'суббот', 'воскрес', 'график'],
+      a: function () {
+        return ['Принимаем ' + STOMIK.hours + ', по записи – без очереди.',
+          STOMIK.address ? 'Адрес: ' + STOMIK.address + ', Наро-Фоминск.' : 'Клиника в Наро-Фоминске, точный адрес и дни приёма подскажем по телефону.'];
+      }, call: true },
+    { id: 'pay', q: 'Оплата, рассрочка, ДМС', keys: ['оплат', 'карт', 'рассроч', 'кредит', 'дмс', 'страхов', 'налогов', 'вычет'],
+      a: ['Про способы оплаты, рассрочку, ДМС и документы для налогового вычета лучше уточнить по телефону – подскажем.'], call: true },
+    { id: 'book', q: 'Записаться', keys: ['запис', 'прием', 'приём', 'попасть', 'свобод', 'окно', 'сегодня', 'завтра'],
+      a: ['Оставьте имя и телефон – перезвоним ' + STOMIK.hours + ' и подберём время.'],
+      service: 'Осмотр и план лечения' }
+  ];
+  var ASK_START = ['price', 'pain', 'first', 'implant', 'ortho', 'where'];
+
+  (function () {
+    var root = document.getElementById('ask'), panel = document.getElementById('ask-panel'), btn = document.getElementById('ask-btn');
+    var log = document.getElementById('ask-log'), form = document.getElementById('ask-form'), started = false;
+    var byId = {}; ASK_KB.forEach(function (t) { byId[t.id] = t; });
+
+    function norm(s) { return String(s).toLowerCase().replace(/ё/g, 'е'); }
+    function match(text) {
+      var t = norm(text), best = null, score = 0;
+      ASK_KB.forEach(function (topic) {
+        var s = 0; topic.keys.forEach(function (k) { if (t.indexOf(norm(k)) !== -1) s += k.length > 5 ? 2 : 1; });
+        s *= topic.weight || 1;
+        if (topic.id === 'urgent' && s) s += 2; // острая боль важнее остальных тем
+        if (s > score) { score = s; best = topic; }
+      });
+      return best;
+    }
+
+    function bubble(who, lines) {
+      var m = document.createElement('div'); m.className = 'msg msg--' + who;
+      lines.forEach(function (line) { var p = document.createElement('p'); p.textContent = line; m.appendChild(p); });
+      log.appendChild(m); log.scrollTop = log.scrollHeight;
+      return m;
+    }
+    function actions(m, topic) {
+      var box = document.createElement('div'); box.className = 'msg__act';
+      if (topic.service) {
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'v-btn'; b.textContent = 'Записаться';
+        b.addEventListener('click', function () { goal('assistant_to_booking', { topic: topic.id }); Book.open(topic.service, 'ask'); });
+        box.appendChild(b);
+      }
+      var a = document.createElement('a'); a.href = 'tel:' + STOMIK.phone; a.textContent = (topic.call && !topic.service ? 'Позвонить ' : 'или позвоните ') + STOMIK.phoneText;
+      box.appendChild(a);
+      m.appendChild(box);
+    }
+    function chips(ids) {
+      var c = document.createElement('div'); c.className = 'chips';
+      ids.forEach(function (id) {
+        var b = document.createElement('button'); b.type = 'button'; b.textContent = byId[id].q;
+        b.addEventListener('click', function () { ask(byId[id].q, byId[id]); });
+        c.appendChild(b);
+      });
+      log.appendChild(c); log.scrollTop = log.scrollHeight;
+    }
+    function answer(topic) {
+      var lines = typeof topic.a === 'function' ? topic.a() : topic.a;
+      actions(bubble('bot', lines), topic);
+    }
+    function ask(text, topic) {
+      bubble('me', [text]);
+      topic = topic || match(text);
+      if (topic) { answer(topic); goal('assistant_answer', { topic: topic.id }); Log.info('assistant answer', { fn: 'ask', topic: topic.id }); }
+      else {
+        var m = bubble('bot', ['На этот вопрос у меня нет готового ответа, а гадать не буду. Позвоните или оставьте телефон – администратор перезвонит и ответит.']);
+        actions(m, { service: 'Осмотр и план лечения' });
+        goal('assistant_no_answer');
+        Log.info('assistant no answer', { fn: 'ask', q: text.slice(0, 120) }); // по этим строкам дополняем базу ответов
+      }
+    }
+
+    function toggle(on) {
+      panel.hidden = !on; btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (!on) { btn.focus(); return; }
+      panel.classList.remove('is-in'); void panel.offsetWidth; panel.classList.add('is-in');
+      if (!started) {
+        started = true;
+        bubble('bot', ['Здравствуйте! Подскажу про цены, лечение, первый визит и запись. Выберите тему или напишите свой вопрос.']);
+        chips(ASK_START);
+      }
+      form.q.focus();
+      goal('assistant_open');
+    }
+    btn.addEventListener('click', function () { toggle(panel.hidden); });
+    document.getElementById('ask-x').addEventListener('click', function () { toggle(false); });
+    root.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) toggle(false); });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var q = form.q.value.trim(); if (!q) return;
+      form.q.value = ''; ask(q);
     });
   })();
 </script>
